@@ -1,0 +1,19 @@
+extends ../layout
+block content
+  div.row
+    div.span9
+      form(method="POST")
+        fieldset
+          legend Register
+          label Username
+          input.input-xlarge(type="text", name="login")
+          label Password
+          input.input-xlarge(type="password", name="password")
+          label Password Confirm
+          input.input-xlarge(type="password", name="password-confirm")
+          label Email
+          input.input-xlarge(type="text", name="email")
+          div
+            button.btn.btn-primary Create Account
+    div.span3
+      include ../sidebar

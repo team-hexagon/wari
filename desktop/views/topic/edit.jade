@@ -1,0 +1,33 @@
+extends ../layout
+block content
+  h3 #{tag.name}
+  .row
+    .span9
+      // 현재 상태
+      if action && action == "edit"
+        h4 edit
+      else
+        h4 write
+      // 오류
+      if error
+        div.alert.alert-error
+          p error
+      -var action = null
+      if action && action == "edit"
+        -action = "/topic/#{_topic}/edit"
+      else
+        -action = "/topic/create/" + tag.name
+      form(action="#{action}", method="post")
+        fieldset
+          label.bold title
+          input.input-block-level(type="text", name="title", row="1")
+          label.bold content
+          textarea.input-block-level.editor(rows="20", name="content") #{content || ""}
+          br
+          input.btn.btn-primary(type="submit", value="submit")
+    .span3
+      h4 politics
+      ol
+        li ㅇㅂㅇ
+        li 눈_눈
+        li 잘써줘

@@ -1,0 +1,23 @@
+// 글
+h3 #{topic._tag.name}
+h3 #{topic.title}
+p #{topic.content}
+hr
+// 댓글쓰기
+h4 write
+p
+  strong username
+div.row-fluid
+  div.span10
+    textarea.input-block-level(style="height:60px")
+  div.span2(style="position:relative")
+    button.btn.btn-success.input-block-level(style="height:60px") submit
+hr
+// 본문
+- for(var i = 0; i < 12; i++)
+  div
+    p
+      strong rintaitnta
+      span.pull-right #{moment().format("LL")}
+    p 塩は二ある血のようからせてまわった。ゴーシュも虎かっこうたりぼくをいうていでし。
+    hr

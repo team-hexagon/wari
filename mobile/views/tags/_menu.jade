@@ -1,0 +1,14 @@
+div
+  div.modal-header
+    h4 キャンパス
+  div.modal-body
+    ul.nav.nav-pills.nav-stacked
+        mixin menu(name, link)
+            li(class="#{path == link ? 'active' : ''}")
+                a(href="#{link}") #{name}
+        +menu("index", "/campus")
+        +menu("お知らせ", "/campus/notice")
+        +menu("ケジュール", "/campus/schedule")
+        +menu("ニュース", "/campus/news")
+        +menu("食堂献立", "/campus/restaurant")
+        +menu("about", "/campus/about")

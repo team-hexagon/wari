@@ -1,0 +1,59 @@
+mixin menu(name, link)
+  li(class="#{path == link ? 'active' : ''}")
+    a(href="#{link}") #{name}
+doctype 5
+html(lang="ja")
+  head
+    meta(charset="utf-8")
+    link(rel="stylesheets")
+    link(href="/css/bootstrap.min.css", rel="stylesheet")
+    style.
+      * { font-family: 나눔고딕, Arial,Meiryo,"Hiragino Kaku Gothic Pro",Osaka,"MS P Gothic",sans-serif !important; }
+      .nav-stacked ul { margin-left: 15px !important; }
+      .navbar-inner { background: #9a071b !important; }
+      .nav-pills > .active > a { background-color: #9a071b !important; }
+      .navbar .nav>li>a { text-shadow: none; color: white; }
+  body
+    div.navbar.navbar-static-top(style="color:white")
+      div.navbar-inner
+        div.container(style="margin:4px auto")
+          // 로고
+          a.brand(href="/", style="padding:6px 0 0 10px")
+            img(src="/img/logo.png")
+          // 기본 메뉴
+          ul.nav
+            li: a(href="/campus") キャンパス
+            li: a(href="/tags/生活") 生活
+            li: a(href="/tags/進路と就職") 進路と就職
+            li: a(href="/tags/サークル") サークル
+            li: a(href="/tags/稲門会") 稲門会
+          // 인증 메뉴
+          if user
+            ul.nav.pull-right
+              li: a(href="/users/#{user.id}") マイページ
+              li: a(href="/logout") ログアウト
+          else
+            ul.nav.pull-right
+              li: a(href="/login") ログイン
+              li: a(href="/register") 登録
+          // 검색
+          // form.navbar-search.pull-right
+            if keyword
+              input(type="text",name="keyword", class="search-query span3", value="#{keyword}", style="width:100px")
+            else
+              input(type="text",name="keyword", class="search-query span3", value="search", style="width:100px")
+    div.container(style="margin-top:10px")
+      block content
+        p !{JSON.stringify(locals,null,4).replace(/\n/g,"<br>").replace(/\s/g, "&nbsp")}
+    hr
+    div.container
+      ul
+        li: a(href="/about"): strong 紹介
+        li: a(href="/faq"): strong FAQ
+        li: a(href="/rss"): strong rss
+      p 
+        span Project Name wari(2013.10.18-2013.11.11) created by
+        a  TeAm Hexagon
+    script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+    script(src="/js/bootstrap.min.js")
+    block script

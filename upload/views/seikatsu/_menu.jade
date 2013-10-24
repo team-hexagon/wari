@@ -1,0 +1,14 @@
+div
+  h4
+    a(href="/tags/生活") 生活
+  ul.nav.nav-pills.nav-stacked
+    +menu("授業", "/tags/授業")
+    +menu("フリーマーケット", "/tags/フリーマーケット")
+    +menu("周辺の店", "/tags/周辺の店")
+    li(class="#{path == link ? 'active' : ''}")
+      a(href="/tags/趣味") 趣味
+      ul.nav.nav-list.tree
+        +menu("アニメ", "/tags/アニメ")
+        +menu("スポーツ", "/tags/スポーツ")
+        +menu("ゲーム", "/tags/ゲーム")
+        +menu("音楽", "/tags/音楽")

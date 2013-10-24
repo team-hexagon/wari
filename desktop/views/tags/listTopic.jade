@@ -1,0 +1,38 @@
+mixin topicItem(name, link)
+  li(class="#{path == link ? 'active' : ''}")
+    a(href="#{link}") #{name}
+if tag
+  h4 #{tag.name}
+  p #{tag.description}
+ 
+else
+  h4 error
+img(src="http://placehold.it/700x100")
+if hotTopics && hotTopics.length > 0
+  ul
+    each topic in hotTopics
+      +topicItem(topic)
+if noReplyTopics && noReplyTopics.length > 0
+  ul
+    each topic in noReplyTopics
+      +topicItem(topic)
+  
+if topics && topics.length > 0
+  include ../topic/list
+else
+  hr
+  p there is no topics. write the first!
+img(src="http://placehold.it/700x100")
+
+  // span 
+    a.btn(href='#')
+    i.icon-edit
+    strong Edit
+  // span 
+   a.btn(href='#')
+    i.icon-trash
+    strong Delete
+  //span 
+    a.btn(href='#')
+    i.icon-align-justify
+    strong List

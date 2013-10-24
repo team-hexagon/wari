@@ -1,0 +1,15 @@
+extends ../layout
+block content
+  .row
+    div.span9
+      form(method="POST")
+        fieldset
+          legend Login
+          label Username
+          input.input-xlarge(type="text", name="login")
+          label Password
+          input.input-xlarge(type="password", name="password")
+          div
+            button.btn.btn-primary Login
+    div.span3
+      include ../sidebar

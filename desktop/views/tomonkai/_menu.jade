@@ -1,0 +1,22 @@
+div
+  h4
+    a(href="/tags/稲門会") 稲門会
+  ul.nav.nav-pills.nav-stacked
+    li(class="#{path == link ? 'active' : ''}")
+      a(href="/tags/日本") 日本
+      ul.nav.nav-list.tree
+        +menu("東京都", "/tags/東京都")
+        +menu("関東", "/tags/関東")
+        +menu("北陸", "/tags/北陸")
+        +menu("東北", "/tags/東北")
+        +menu("北海道", "/tags/北海道")
+        +menu("九州", "/tags/九州")
+        +menu("近畿", "/tags/近畿")
+        +menu("四国", "/tags/四国")
+    li(class="#{path == link ? 'active' : ''}")
+      a(href="/tags/アジア") アジア
+      ul.nav.nav-list.tree
+        +menu("中国", "/tags/中国")
+        +menu("韓国", "/tags/韓国")
+    +menu("ヨーロッパ", "/tags/ヨーロッパ")
+    +menu("アメリカ", "/tags/アメリカ")

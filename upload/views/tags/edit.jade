@@ -1,0 +1,31 @@
+extends ../layout
+block content
+  div.row
+    div.span12
+      // 태그 추가
+      form.form-horizontal(action="/tags/#{tag._id}", method="post")
+        legend edit tag
+        div.control-group
+          label.control-label name
+          div.controls
+            input.input-xlarge(name="name", type="text", value="#{tag.name}")
+            p.help-block text and number
+        div.control-group
+          label.control-label Menu Template
+          div.controls
+            input.input-xlarge(name="menu-template", type="text", value="#{tag.menu_template}")
+            p.help-block Menu Template
+        div.control-group
+          label.control-label description
+          div.controls
+            textarea.input-xlarge(name="description", row="4") #{tag.description}
+        // input(type="hidden", name="_csrf", value="#{csrf}")
+        div.form-actions
+          input.btn(type="submit", value="edit")
+  script.
+    $(document).ready(function () {
+      $(".btn-danger").click(function () {
+        if(confirm("delete confirm")) { window.location.href = $(this).attr("href") }
+        return false;
+      });
+    });

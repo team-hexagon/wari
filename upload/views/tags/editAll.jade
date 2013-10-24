@@ -1,0 +1,63 @@
+extends ../layout
+block content
+  div.row
+    div.span12
+      form
+        legend edit tag
+      // 태그 표
+      if tags && tags.length > 0
+        table.table.table-bordered.table-condensed
+          thead
+            th id
+            th name
+            th menu template
+            th description
+            th ancestors
+            th edit
+            th delete
+          tbody
+            for tag in tags
+              tr
+                td #{tag._id}
+                td #{tag.name}
+                td #{tag.menu_template}
+                th #{tag.description}
+                td #{JSON.stringify(tag.ancestors)}
+                td
+                  a.btn.btn-success(href="/tags/#{tag.name}/edit") edit
+                td
+                  a.btn.btn-danger(href="/tags/#{tag.name}/delete") delete
+      else
+        p No tags
+      // 태그 추가
+      form.form-horizontal(action="/tags/add", method="post")
+        legend add tag
+        div.control-group
+          label.control-label name
+          div.controls
+            input.input-xlarge(name="name", type="text")
+            p.help-block text and number
+        div.control-group
+          label.control-label Menu Template
+          div.controls
+            input.input-xlarge(name="menu-template", type="text")
+            p.help-block Menu Template
+        div.control-group
+          label.control-label Ancestors
+          div.controls
+            input.input-xlarge(name="ancestors", type="text")
+            p.help-block Ancestor's id like this ["5265afb982c603481c000001","52659f660a5b6a3c1b000002"]
+        div.control-group
+          label.control-label description
+          div.controls
+            textarea.input-xlarge(name="description", row="4")
+        // input(type="hidden", name="_csrf", value="#{csrf}")
+        div.form-actions
+          input.btn(type="submit", value="add")
+  script.
+    $(document).ready(function () {
+      $(".btn-danger").click(function () {
+        if(confirm("delete confirm")) { window.location.href = $(this).attr("href") }
+        return false;
+      });
+    });

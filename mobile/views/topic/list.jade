@@ -1,0 +1,55 @@
+table.table.table-bordered.table-condensed
+  tr
+    th tag
+    th title
+    th author
+    th hit
+    th date
+  each topic in topics
+    tr
+      td
+        a(href="/tags/#{topic._tag.name}") #{topic._tag.name}
+      td
+        a(href="/topic/#{topic._id}") #{topic.title} (#{topic.reply_count})
+      td
+        a(href="/user/#{topic._author.login}") #{topic._author.login}
+      td #{topic.visit_count}
+      td #{moment(topic.create_at).fromNow()}
+div.pagination(data-current="#{currentPage}", style="text-align:center")
+  ul
+    // 기본 경로
+    -var baseUrl = path + (path.indexOf('?') < 0 ? '?' : '&') + 'page='
+    if currentPage == 1
+      li.disabled
+       a «
+    else
+      li
+        a(href="#{baseUrl}1") «
+    // 페이지
+    -var pageStart = currentPage - 5 > 0 ? currentPage - 5 : 1
+    -var pageEnd = (pageStart + 10) >= pages ? pages : (pageStart + 10)
+    -console.log(pageStart, pageEnd)
+    if pageStart > 1
+      li
+        a ...
+
+    -for(var i = pageStart; i <= pageEnd; i++)
+      if i == currentPage
+        li.disabled
+          a #{i}
+      else
+        li
+          a(href="#{baseUrl + i}") #{i}
+    if pageEnd < pages
+      li
+        a ...
+    if currentPage == pages
+      li.disabled
+        a »
+    else
+      li
+        a(href="#{baseUrl + pages}") »
+    
+
+
+  
