@@ -1,4 +1,15 @@
 extends ../layout
+block script
+  script(src="/lib/ckeditor/ckeditor.js")
+  script.
+    document.domain = '127.0.0.1.xip.io';
+    CKEDITOR.replace('editor', {
+      filebrowserBrowseUrl: 'http://upload.127.0.0.1.xip.io:3000/browse',
+      filebrowserImageUploadUrl: 'http://upload.127.0.0.1.xip.io:3000/images',
+      filebrowserWindowWidth: 640,
+      filebrowserWindowHeight: 480
+    });  
+
 block content
   h3 #{tag.name}
   .row
@@ -22,7 +33,7 @@ block content
           label.bold title
           input.input-block-level(type="text", name="title", row="1")
           label.bold content
-          textarea.input-block-level.editor(rows="20", name="content") #{content || ""}
+          textarea#editor.input-block-level.editor(rows="20", name="content") #{content || ""}
           br
           input.btn.btn-primary(type="submit", value="submit")
     .span3

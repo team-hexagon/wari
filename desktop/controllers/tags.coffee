@@ -11,6 +11,8 @@ TagCollect = models.TagCollect
 TopicTag = models.TopicTag
 User = models.User
 
+initString = (input) -> sanitize(sanitize(input).trim()).xss()
+
 # 모듈을 생성합니다.
 exports.listTopic = (request, response, next) ->
     # 요청 매개 변수를 추출합니다.
@@ -77,15 +79,18 @@ exports.editTags = (request, response, next) ->
 exports.add = (request, response, next) ->
     # 요청 매개 변수를 추출합니다.
     name = request.param "name"
-    name = sanitize(name).trim()
-    name = sanitize(name).xss()
+    name = initString name
     description = request.param "description"
-    description = sanitize(description).trim()
-    description = sanitize(description).xss()
+    description = initString description
     menuTemplate = request.param "menu-template"
-    menuTemplate = sanitize(menuTemplate).trim()
-    menuTemplate = sanitize(menuTemplate).xss()
+    menuTemplate = initString menuTemplate
     order = request.param "order"
+    ancestors = request.param "ancestors"
+    try
+        ancestors = JSON.parse ancestors
+    catch e
+        ancestors = []
+
 
     # 유효성 검사
     unless name
@@ -105,6 +110,7 @@ exports.add = (request, response, next) ->
             menu_template: menuTemplate
             order: order
             description: description
+            ancestors: ancestors
         tag.save (error) ->
             return next error if error
             response.redirect "/tags/edit"
@@ -138,16 +144,18 @@ exports.update = (request, response, next) ->
 
         # 요청 매개 변수를 추출합니다.
         name = request.param "name"
-        name = sanitize(name).trim()
-        name = sanitize(name).xss()
+        name = initString name
         order = request.param "order"
         menuTemplate = request.param "menu-template"
-        menuTemplate = sanitize(menuTemplate).trim()
-        menuTemplate = sanitize(menuTemplate).xss()
+        menuTemplate = initString menuTemplate
         description = request.param "description"
-        description = sanitize(description).trim()
-        description = sanitize(description).xss()
-        
+        description = initString description
+        ancestors = request.param "ancestors"
+        try
+            ancestors = JSON.parse ancestors
+        catch e
+            ancestors = []
+
         unless name
             return response.send "notify/notify",
                 error: "이름이 이상해요"
@@ -156,6 +164,7 @@ exports.update = (request, response, next) ->
         tag.order = order
         tag.menu_template = menuTemplate
         tag.description = description
+        tag.ancestors = ancestors
         
         tag.save (error) ->
             return next error if error

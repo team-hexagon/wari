@@ -1,5 +1,5 @@
 ﻿(function() {
-  var campus, log, message, reply, rss, site, status, tags, topic, upload, user;
+  var campus, log, message, reply, rss, site, status, tags, topic, user;
 
   site = require("./controllers/site");
 
@@ -12,8 +12,6 @@
   topic = require("./controllers/topic");
 
   reply = require("./controllers/reply");
-
-  upload = require("./controllers/upload");
 
   user = require("./controllers/user");
 
@@ -50,7 +48,6 @@
     app.post("/:topicId/reply", helper.userRequired, helper.postInterval, reply.add);
     app.post("/:topicId/reply2", helper.userRequired, helper.postInterval, reply.addReply2);
     app.post("/reply/:replyId/delete", reply.del);
-    app.post("/upload/image", upload.uploadImage);
     app.get("/user/:name", user.index);
     app.get("/setting", user.showSetting);
     app.post("/setting", user.setting);

@@ -22,7 +22,7 @@ block content
                 td #{tag.name}
                 td #{tag.menu_template}
                 th #{tag.description}
-                td #{JSON.stringify(tag.ancestors)}
+                td #{JSON.stringify(tag.ancestors,null,2)}
                 td
                   a.btn.btn-success(href="/tags/#{tag.name}/edit") edit
                 td

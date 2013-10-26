@@ -19,12 +19,12 @@ app = express()
 
 # 모듈 설정
 # mobile = require "./mobile/app.js"
-# upload = require "./upload/app.js"
+upload = require "./upload/app.js"
 desktop = require "./desktop/app.js"
 
 # 서버 설정
-# app.use express.vhost("m.*", mobile.active(52273))
-# app.use express.vhost("upload.*", upload.active(52274))
+# app.use express.vhost("m.*", mobile.active(52275))
+app.use express.vhost("upload.*", upload.active(52274))
 app.use express.vhost("*", desktop.active(52273))
 
 # 서버를 실행합니다.

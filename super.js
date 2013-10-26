@@ -1,5 +1,5 @@
 ﻿(function() {
-  var app, desktop, express, mkdirp;
+  var app, desktop, express, mkdirp, upload;
 
   express = require("express");
 
@@ -21,7 +21,11 @@
 
   app = express();
 
+  upload = require("./upload/app.js");
+
   desktop = require("./desktop/app.js");
+
+  app.use(express.vhost("upload.*", upload.active(52274)));
 
   app.use(express.vhost("*", desktop.active(52273)));
 

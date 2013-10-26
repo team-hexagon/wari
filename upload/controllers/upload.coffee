@@ -1,31 +1,42 @@
-﻿fs = require "fs"
+fs = require "fs"
 path = require "path"
 mkdirp = require "mkdirp"
 
-exports.uploadImage = (request, repsonse, next) ->
-    unless request.user
-        return response.send
-            status: "forbidden"
+exports.browseImage = (request, response, next) ->
+    
 
-    file = request.files and request.files.userfile
-    if file
-        response.send
+exports.uploadImage = (request, response, next) ->
+    log "upload start"
+    ###
+    unless request.user
+    return response.send
+    status: "forbidden"
+    ###
+    ckEditorFuncNum = request.param "CKEditorFuncNum"
+    file = request.files and request.files.upload
+    unless file
+        return response.send
             status: "failed"
             message: "no file"
-
-    uid = request.user._id.toString()
-    userDir = path.join config.uploadDir, uid
+    # uid = request.user._id.toString()
+    userDir = config.uploadDir #path.join config.uploadDir, uid
     mkdirp userDir, (error) ->
         return next error if error
-        filename = Date.now() + '_' + file.name
+        filename = "#{Date.now()}_#{file.name}"
         savepath = path.resolve path.join(userDir, filename)
         if savepath.indexOf(path.resolve(userDir)) isnt 0
             return response.send
                 status: "forbidden"
-        fs.rename fila.path, savepath, (error) ->
+        fs.rename file.path, savepath, (error) ->
             return next error if error
-            response.send
-                status: "success"
-                url: "/upload/#{uid}/#{encodeURIComponent(filename)}"
-
+            url = "/upload/#{encodeURIComponent(filename)}"
+            response.send """
+            <script>
+                document.domain = '127.0.0.1.xip.io';
+                window.parent.CKEDITOR.tools.callFunction('#{ckEditorFuncNum}','#{url}','Success');
+            </script>
+            """
+        #status: "success"
+        #url: "http://upload.127.0.0.1.xip.io:3000/upload/#{encodeURIComponent(filename)}"
+        ###
         

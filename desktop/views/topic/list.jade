@@ -1,57 +1,62 @@
-div(style="border:1px solid hsl(0, 0%, 93%)")
-  div(style="line-height:200%;padding:7px 10px;background-color: hsl(0, 0%, 93%)")
-    span 割たち
+
+div(style="line-height:200%;padding:7px 10px;background-color: hsl(0, 0%, 93%)")
+  span 割たち
     if user
       a.btn.btn-success.pull-right(href="/topic/create/#{tag.name}")
         i.icon-pencil
         strong 割り
-  each topic in topics
-    div(style="padding:10px 10px;box-shadow:0 1px 0 hsl(0,0%,90%)")
-      div
-        span.pull-right #{moment(topic.create_at).fromNow()}
-        p
-          span [
-          a(href="/tags/#{topic._tag.name}") #{topic._tag.name}
-          span ] 
-          a(href="/topic/#{topic._id}") #{topic.title}
-      a(href="/user/#{topic._author.login}") #{topic._author.login}
-      span  / hit: #{topic.visit_count}
-      span  / replies: #{topic.reply_count}
-div.pagination(data-current="#{currentPage}", style="text-align:center")
-  ul
-    // 기본 경로
-    -var baseUrl = path + (path.indexOf('?') < 0 ? '?' : '&') + 'page='
-    if currentPage == 1
-      li.disabled
-       a «
-    else
-      li
-        a(href="#{baseUrl}1") «
-    // 페이지
-    -var pageStart = currentPage - 5 > 0 ? currentPage - 5 : 1
-    -var pageEnd = (pageStart + 10) >= pages ? pages : (pageStart + 10)
-    -console.log(pageStart, pageEnd)
-    if pageStart > 1
-      li
-        a ...
-
-    -for(var i = pageStart; i <= pageEnd; i++)
-      if i == currentPage
+if topics && topics.length > 0
+  div(style="border:1px solid hsl(0, 0%, 93%)")
+    each topic in topics
+      div(style="padding:10px 10px;box-shadow:0 1px 0 hsl(0,0%,90%)")
+        div
+          - var time = moment(topic.create_at)
+          span.pull-right #{time.format("LL")} 
+          p
+            span [
+            a(href="/tags/#{topic._tag.name}") #{topic._tag.name}
+            span ] 
+            a(href="/topic/#{topic._id}") #{topic.title}
+        a(href="/user/#{topic._author.login}") 
+          img(src="http://placehold.it/16x16")
+          span  #{topic._author.login}
+        span
+          span  / hit: #{topic.visit_count} / replies: #{topic.reply_count} / いい: #{topic.collect_count}
+          span.pull-right #{time.fromNow()}
+  div.pagination(data-current="#{currentPage}", style="text-align:center")
+    ul
+      // 기본 경로
+      - var baseUrl = path + (path.indexOf('?') < 0 ? '?' : '&') + 'page='
+      if currentPage == 1
         li.disabled
-          a #{i}
+         a «
       else
         li
-          a(href="#{baseUrl + i}") #{i}
-    if pageEnd < pages
-      li
-        a ...
-    if currentPage == pages
-      li.disabled
-        a »
-    else
-      li
-        a(href="#{baseUrl + pages}") »
-    
+          a(href="#{baseUrl}1") «
+      // 페이지
+      -var pageStart = currentPage - 5 > 0 ? currentPage - 5 : 1
+      -var pageEnd = (pageStart + 10) >= pages ? pages : (pageStart + 10)
+      if pageStart > 1
+        li
+          a ...
+      -for(var i = pageStart; i <= pageEnd; i++)
+        if i == currentPage
+          li.disabled
+            a #{i}
+        else
+          li
+            a(href="#{baseUrl + i}") #{i}
+      if pageEnd < pages
+        li
+          a ...
+      if currentPage == pages
+        li.disabled
+          a »
+      else
+        li
+          a(href="#{baseUrl + pages}") »
+else 
+  p there is no topics. write the first!
 
 
   

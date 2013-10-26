@@ -1,5 +1,5 @@
 ﻿(function() {
-  var EventProxy, Tag, TagCollect, Topic, TopicTag, User, log, sanitize, validator;
+  var EventProxy, Tag, TagCollect, Topic, TopicTag, User, initString, log, sanitize, validator;
 
   validator = require("validator");
 
@@ -18,6 +18,10 @@
   TopicTag = models.TopicTag;
 
   User = models.User;
+
+  initString = function(input) {
+    return sanitize(sanitize(input).trim()).xss();
+  };
 
   exports.listTopic = function(request, response, next) {
     var limit, page, tagName;
@@ -91,17 +95,20 @@
   };
 
   exports.add = function(request, response, next) {
-    var description, menuTemplate, name, order;
+    var ancestors, description, menuTemplate, name, order;
     name = request.param("name");
-    name = sanitize(name).trim();
-    name = sanitize(name).xss();
+    name = initString(name);
     description = request.param("description");
-    description = sanitize(description).trim();
-    description = sanitize(description).xss();
+    description = initString(description);
     menuTemplate = request.param("menu-template");
-    menuTemplate = sanitize(menuTemplate).trim();
-    menuTemplate = sanitize(menuTemplate).xss();
+    menuTemplate = initString(menuTemplate);
     order = request.param("order");
+    ancestors = request.param("ancestors");
+    try {
+      ancestors = JSON.parse(ancestors);
+    } catch (e) {
+      ancestors = [];
+    }
     if (!name) {
       return response.render("notify/notify", {
         error: "이름이 없엉"
@@ -121,7 +128,8 @@
         name: name,
         menu_template: menuTemplate,
         order: order,
-        description: description
+        description: description,
+        ancestors: ancestors
       });
       return tag.save(function(error) {
         if (error) {
@@ -160,7 +168,7 @@
     var id;
     id = request.param("id");
     return Tag.getTagById(id, function(error, tag) {
-      var description, menuTemplate, name, order;
+      var ancestors, description, menuTemplate, name, order;
       if (error) {
         return next(error);
       }
@@ -170,15 +178,18 @@
         });
       }
       name = request.param("name");
-      name = sanitize(name).trim();
-      name = sanitize(name).xss();
+      name = initString(name);
       order = request.param("order");
       menuTemplate = request.param("menu-template");
-      menuTemplate = sanitize(menuTemplate).trim();
-      menuTemplate = sanitize(menuTemplate).xss();
+      menuTemplate = initString(menuTemplate);
       description = request.param("description");
-      description = sanitize(description).trim();
-      description = sanitize(description).xss();
+      description = initString(description);
+      ancestors = request.param("ancestors");
+      try {
+        ancestors = JSON.parse(ancestors);
+      } catch (e) {
+        ancestors = [];
+      }
       if (!name) {
         return response.send("notify/notify", {
           error: "이름이 이상해요"
@@ -188,6 +199,7 @@
       tag.order = order;
       tag.menu_template = menuTemplate;
       tag.description = description;
+      tag.ancestors = ancestors;
       return tag.save(function(error) {
         if (error) {
           return next(error);

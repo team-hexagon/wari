@@ -47,7 +47,6 @@ app.locals
 # 라우트합니다.
 require("./routes")(app)
 
-
 # 서버를 실행합니다.
 exports.active = (port) ->
     http.createServer(app).listen port, () ->

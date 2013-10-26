@@ -17,13 +17,9 @@ if noReplyTopics && noReplyTopics.length > 0
     each topic in noReplyTopics
       +topicItem(topic)
   
-if topics && topics.length > 0
-  include ../topic/list
-else
-  hr
-  p there is no topics. write the first!
-img(src="http://placehold.it/700x100")
 
+include ../topic/list
+img(src="http://placehold.it/700x100")
   // span 
     a.btn(href='#')
     i.icon-edit

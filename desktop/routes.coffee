@@ -4,7 +4,6 @@ campus = require "./controllers/campus"
 rss = require "./controllers/rss"
 topic = require "./controllers/topic"
 reply = require "./controllers/reply"
-upload = require "./controllers/upload"
 user = require "./controllers/user"
 message = require "./controllers/message"
 tags = require "./controllers/tags"
@@ -49,9 +48,6 @@ module.exports = (app) ->
     app.post "/:topicId/reply", helper.userRequired, helper.postInterval, reply.add
     app.post "/:topicId/reply2", helper.userRequired, helper.postInterval, reply.addReply2
     app.post "/reply/:replyId/delete", reply.del
-    
-    # 업로드
-    app.post "/upload/image", upload.uploadImage
 
     # 사용자
     app.get "/user/:name", user.index
