@@ -8,7 +8,7 @@
 
 + 변수 이름
 
-const 변수는 대문자 뱀 방식(RINT_IAN_TTA), 일반 변수는 낙타 방식(rintIanTta)
+const 변수는 대문자 뱀 방식(RINT_IAN_TTA), 일반 변수는 낙타 방식(rintIanTta), 데이터베이스는 소문자 뱀 방식(create_at)
 
 + 들여쓰기
 
